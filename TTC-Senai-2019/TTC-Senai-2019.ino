@@ -4,7 +4,7 @@ Ultrasonic ultrasonic(7);
 
 long distancia;
 
-int motorPin = A5;
+int motorPin = A5; // Pino analógico A5
 
 void setup() {
   // Função que roda apenas uma vez, quando ligada ou resetada
@@ -18,7 +18,7 @@ void setup() {
 
 void loop() {
   // Função que roda infinitamente depois que a placa é ligada
-  distancia = ultrasonic.read(); // Correção aqui, remova "CM"
+  distancia = ultrasonic.read();
   Serial.print(distancia); // 0~400cm
   Serial.println("cm");
 
@@ -29,7 +29,7 @@ void loop() {
     digitalWrite(10, HIGH);
   }
   else {
-    analogWrite(motorPin, 0);
+    analogWrite(motorPin, 10);
     digitalWrite(8, LOW);
     digitalWrite(9, LOW);
     digitalWrite(10, LOW);
