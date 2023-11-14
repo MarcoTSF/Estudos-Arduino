@@ -1,44 +1,56 @@
-#include <RH_ASK.h> //INCLUSÃO DE BIBLIOTECA
-#include <SPI.h> //INCLUSÃO DE BIBLIOTECA
+#include <RHReliableDatagram.h>
+#include <RH_ASK.h>
+#include <SPI.h>
 #include <Ultrasonic.h> // Leitura de distância com o sensor Grove Ultrasonic Ranger v2.0
 
 Ultrasonic ultrasonic(7);
 
 long distancia;
 
+#define TX_ADDRESS 1
+#define RX_ADDRESS 2
+
 RH_ASK driver; //CRIA O DRIVER PARA COMUNICAÇÃO
+RHReliableDatagram gerente(driver, TX_ADDRESS);
+
+uint8_t count = 1;
+uint8_t data[] = "Acionar Sistema";
+uint8_t buf[RH_ASK_MAX_MESSAGE_LEN];
 
 void setup(){
   Serial.begin(9600); // Habilita a comunicação serial
-  pinMode(7, OUTPUT);
-  pinMode(8, OUTPUT);
-  pinMode(9, OUTPUT);
-  pinMode(10, OUTPUT);
-  pinMode(motorPin, OUTPUT);
 
-  driver.init(); //INICIALIZA A COMUNICAÇÃO RF DO DRIVER
+  if (!gerente.init()) {
+    Serial.println("Falha na inicialização");
+  }
+
+  pinMode(7, OUTPUT); // Ultrasonic
+  pinMode(8, OUTPUT); // Led
+  pinMode(9, OUTPUT); // Led
+  pinMode(10, OUTPUT); // Led
 }
 
 void loop(){
+  Serial.print("Transmitindo mensagem nº");
+  Serial.println(count);
+  Serial.print("");
   distancia = ultrasonic.read();
   Serial.print(distancia); // 0~400cm
   Serial.println("cm");
 
-  const char *msg = "vibrar"; //VARIÁVEL RECEBE O VALOR (motor)
-
-  if (distancia < 100) {
-    driver.send((uint8_t *)msg, strlen(msg)); //ENVIA AS INFORMAÇÕES PARA O RECEPTOR (PALAVRA: vibrar)
-    driver.waitPacketSent(); //AGUARDA O ENVIO DAS INFORMAÇÕES
-
+  if (distancia < 150) {
     digitalWrite(8, HIGH);
     digitalWrite(9, HIGH);
     digitalWrite(10, HIGH);
-  }
-  else {
+
+    if (!gerente.sendtoWait(data, sizeof(data), RX_ADDRESS)) {
+      count++;
+    }
+  } else {
     digitalWrite(8, LOW);
     digitalWrite(9, LOW);
     digitalWrite(10, LOW);
   }
 
-  delay(100);
+  delay(500);
 }
