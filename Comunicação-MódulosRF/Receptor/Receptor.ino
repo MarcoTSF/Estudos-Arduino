@@ -40,6 +40,9 @@ void loop(){
       if (strcmp((char*)buf, "Acionar Sistema") == 0) {
         digitalWrite(pinoLed, HIGH); //ACENDE O LED
         analogWrite(motorPin, 250);
+        delay(1000);
+        digitalWrite(pinoLed, LOW); //APAGA O LED
+        analogWrite(motorPin, 10);
       } else {
         digitalWrite(pinoLed, LOW); //APAGA O LED
         analogWrite(motorPin, 10);

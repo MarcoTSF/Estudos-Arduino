@@ -27,13 +27,9 @@ void setup(){
   pinMode(7, OUTPUT); // Ultrasonic
   pinMode(8, OUTPUT); // Led
   pinMode(9, OUTPUT); // Led
-  pinMode(10, OUTPUT); // Led
 }
 
 void loop(){
-  Serial.print("Transmitindo mensagem nº");
-  Serial.println(count);
-  Serial.print("");
   distancia = ultrasonic.read();
   Serial.print(distancia); // 0~400cm
   Serial.println("cm");
@@ -41,7 +37,10 @@ void loop(){
   if (distancia < 150) {
     digitalWrite(8, HIGH);
     digitalWrite(9, HIGH);
-    digitalWrite(10, HIGH);
+    
+    Serial.print("Transmitindo mensagem nº");
+    Serial.println(count);
+    Serial.print("");
 
     if (!gerente.sendtoWait(data, sizeof(data), RX_ADDRESS)) {
       count++;
@@ -49,8 +48,7 @@ void loop(){
   } else {
     digitalWrite(8, LOW);
     digitalWrite(9, LOW);
-    digitalWrite(10, LOW);
   }
 
-  delay(500);
+  delay(200);
 }
