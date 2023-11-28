@@ -15,7 +15,7 @@ function getDataFromArduino() {
     };
     
     // Realiza uma requisição POST para o servidor Arduino
-    xhttp.open("POST", "http://192.168.0.100/", true);
+    xhttp.open("POST", "http://10.60.128.13/", true);
     xhttp.send();
 }
 

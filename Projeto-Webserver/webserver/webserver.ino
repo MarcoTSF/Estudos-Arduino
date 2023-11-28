@@ -1,8 +1,13 @@
 #include <Ethernet.h>
 #include <ArduinoJson.h>
+#include <Ultrasonic.h>
 
-byte mac[] = {0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED};
-IPAddress ip(192, 168, 0, 100);
+Ultrasonic ultrasonic(7);
+
+long distancia;
+
+byte mac[] = {0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xEB};
+IPAddress ip(10, 60, 128, 13);
 
 // Cria um servidor web na porta 80
 EthernetServer server(80);
@@ -10,6 +15,10 @@ EthernetServer server(80);
 void setup() {
   // Inicializa a comunicação serial
   Serial.begin(9600);
+
+  pinMode(7, OUTPUT);
+  pinMode(A0, INPUT_PULLUP);
+  pinMode(A2, INPUT_PULLUP);
 
   // Inicializa a conexão Ethernet e o servidor
   Ethernet.begin(mac, ip);
@@ -32,13 +41,13 @@ void loop() {
         if (c == '\n') {
           // Leitura dos dados das portas analógicas A0, A1 e A2
           int analogValueA0 = analogRead(A0);
-          int analogValueA1 = analogRead(A1);
+          int distancia = ultrasonic.read(7);
           int analogValueA2 = analogRead(A2);
 
           // Cria um objeto JSON
           StaticJsonDocument<200> jsonDocument;
           jsonDocument["A0"] = analogValueA0;
-          jsonDocument["A1"] = analogValueA1;
+          jsonDocument["A1"] = distancia;
           jsonDocument["A2"] = analogValueA2;
 
           // Converte o objeto JSON em uma string
@@ -58,7 +67,7 @@ void loop() {
     }
 
     // Fecha a conexão
-    delay(1);
+    delay(100);
     client.stop();
     Serial.println("Cliente Desconectado");
   }
