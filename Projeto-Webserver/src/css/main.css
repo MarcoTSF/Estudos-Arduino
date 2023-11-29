@@ -101,3 +101,7 @@ main .card div {
 main .card div p {
     font-size: 20px;
 }
+
+main .card div p span {
+    color: gray;
+}

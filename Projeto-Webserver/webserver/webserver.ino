@@ -43,6 +43,7 @@ void loop() {
           int analogValueA0 = analogRead(A0);
           int distancia = ultrasonic.read(7);
           int analogValueA2 = analogRead(A2);
+          analogValueA2 = 1023 - analogValueA2;
 
           // Cria um objeto JSON
           StaticJsonDocument<200> jsonDocument;

@@ -9,8 +9,8 @@ function getDataFromArduino() {
             // Exibe os dados na página
             document.getElementById("dadosArduino").innerHTML =
             "<p>Temperatura: " + data.A0 + "°C</p>" +
-            "<p>Umidade: " + data.A1 + "%</p>" +
-            "<p>Luminosidade: " + data.A2 + "lux</p>";
+            "<p>Proximidade: " + data.A1 + "cm</p>" +
+            "<p>Luminosidade: " + data.A2 + " <span>(Quanto maior a luminosidade, maior a incidência de luz.)</span></p>";
         }
     };
     
