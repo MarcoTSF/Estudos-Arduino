@@ -47,9 +47,9 @@ void loop() {
 
           // Cria um objeto JSON
           StaticJsonDocument<200> jsonDocument;
-          jsonDocument["A0"] = analogValueA0;
-          jsonDocument["A1"] = distancia;
-          jsonDocument["A2"] = analogValueA2;
+          jsonDocument["Temperature"] = analogValueA0;
+          jsonDocument["Distance"] = distancia;
+          jsonDocument["Luminosity"] = analogValueA2;
 
           // Converte o objeto JSON em uma string
           String jsonString;
@@ -68,7 +68,7 @@ void loop() {
     }
 
     // Fecha a conexão
-    delay(100);
+    delay(200);
     client.stop();
     Serial.println("Cliente Desconectado");
   }

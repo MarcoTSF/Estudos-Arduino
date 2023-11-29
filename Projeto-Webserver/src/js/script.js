@@ -8,9 +8,9 @@ function getDataFromArduino() {
             var data = JSON.parse(this.responseText);
             // Exibe os dados na página
             document.getElementById("dadosArduino").innerHTML =
-            "<p>Temperatura: " + data.A0 + "°C</p>" +
-            "<p>Proximidade: " + data.A1 + "cm</p>" +
-            "<p>Luminosidade: " + data.A2 + " <span>(Quanto maior a luminosidade, maior a incidência de luz.)</span></p>";
+            "<p>Temperatura: " + data.Temperature + "°C</p>" +
+            "<p>Proximidade: " + data.Distance + "cm</p>" +
+            "<p>Luminosidade: " + data.Luminisity + "lux</p>";
         }
     };
     
@@ -20,6 +20,6 @@ function getDataFromArduino() {
 }
 
 // Atualiza os dados automaticamente a cada 5 segundos
-setInterval(getDataFromArduino, 5000);
+setInterval(getDataFromArduino, 500);
 // Chama a função para obter os dados pela primeira vez
 getDataFromArduino();
